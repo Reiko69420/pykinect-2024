@@ -10,22 +10,6 @@ def get_depth_data(kinect):
     depth_frame_data = depth_frame.reshape((kinect.depth_frame_desc.Height, kinect.depth_frame_desc.Width)).astype(np.uint8)
     return depth_frame_data
 
-def display_with_pygame(depth_data, screen):
-    # Create a Pygame surface with the same dimensions as depth data
-    depth_surface = pygame.Surface((depth_data.shape[1], depth_data.shape[0]), 0, 8)
-
-    # Transpose the depth data array to match surface dimensions
-    depth_data_transposed = np.transpose(depth_data)
-
-    # Convert depth data array to Pygame surface
-    depth_surface_array = pygame.surfarray.pixels2d(depth_surface)
-    depth_surface_array[:, :] = depth_data_transposed
-
-    # Blit the depth surface onto the screen
-    screen.blit(depth_surface, (0, 0))
-
-    pygame.display.update()
-    
 def display_with_opencv(depth_data):
     cv2.imshow('Depth Image', depth_data)
     cv2.waitKey(1)
@@ -38,7 +22,7 @@ def main():
     kinect = runtime.PyKinectRuntime(com.FrameSourceTypes_Depth)
 
     # Set up Pygame display
-    screen = pygame.display.set_mode((kinect.depth_frame_desc.Width, kinect.depth_frame_desc.Height), pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.RESIZABLE, 32)
+    #screen = pygame.display.set_mode((kinect.depth_frame_desc.Width, kinect.depth_frame_desc.Height), pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.RESIZABLE, 32)
 
     # Main loop
     while True:
@@ -47,10 +31,10 @@ def main():
             depth_data = get_depth_data(kinect)
 
             # Display using Pygame
-            display_with_pygame(depth_data, screen)
+            #display_with_pygame(depth_data, screen)
 
             # Display using OpenCV
-            #display_with_opencv(depth_data)
+            display_with_opencv(depth_data)
 
         # Check for quit event
         for event in pygame.event.get():
